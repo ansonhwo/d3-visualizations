@@ -24,7 +24,6 @@
 */
 (function() {
   const typeConverter = d => {
-    console.log(d);
     d.value = +d.value;
     return d;
   }
@@ -43,8 +42,8 @@
   // request here
   d3.csv('./fakeData/barChart2.csv', typeConverter, (error, data) => {
     // Set up data related chart properties
-    xScale.domain([0, d3.max(data)]);
-
+    xScale.domain([0, d3.max(data, d => d.value)]);
+    console.log(data)
     chart.attr('height', barHeight * data.length);
 
     // Set up bars - only need enter hook atm
@@ -54,15 +53,15 @@
         .attr('transform', (d, i) => `translate(0, ${i*barHeight})`);
 
     bar.append('rect')
-      .attr('width', xScale)
+      .attr('width', d => xScale(d.value))
       .attr('height', barHeight - 1);
 
     // We need to manually position text as its not an actual text property, just a svg text element
     bar.append('text')
-      .attr('x', d => xScale(d) - 20)
+      .attr('x', d => xScale(d.value) - 20)
       .attr('y', barHeight / 2)
       .attr('dy', ".35em") // Sets the text offset
-      .text(d => d);
+      .text(d => d.value);
 
   })
 })();
