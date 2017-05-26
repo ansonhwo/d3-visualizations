@@ -1,4 +1,9 @@
-#barChart1 div{
+#barChart1 div {
   background-color: #13f4f3;
   text-align: right;
+  margin-bottom: 1px;
+}
+
+#barChart2 rect {
+  fill: #13f4f3;
 }
