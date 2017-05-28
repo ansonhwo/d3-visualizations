@@ -7,3 +7,13 @@
 #barChart2 rect {
   fill: #13f4f3;
 }
+
+#barChart3 rect {
+  fill: #13f4f3;
+}
+
+#barChart3 text {
+  fill: black;
+  font: 10px sans-serif;
+  text-anchor: middle;
+}

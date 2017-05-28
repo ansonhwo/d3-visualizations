@@ -62,6 +62,48 @@
       .attr('y', barHeight / 2)
       .attr('dy', ".35em") // Sets the text offset
       .text(d => d.value);
-
   })
+})();
+/*
+  barChart3
+  - set width height
+  - set scale (range and domain)
+  - select chart and initialize with width and height
+*/
+(function() {
+  const width = 960,
+        height = 500;
+
+  const yScale = d3.scaleLinear().range([height, 0]); // We switch height and width because of how SVG defines coordinate positions
+
+  const chart = d3.select('#barChart3')
+    .attr('width', width)
+    .attr('height', height);
+
+  d3.csv('./fakeData/barChart3.csv', d => { d.frequency = +d.frequency; return d}, (error, data) => {
+    console.log(data)
+    yScale.domain([0, d3.max(data, d => d.frequency)]);
+
+    const barWidth = width / data.length;
+
+    // Create group elements for svg
+    const bar = chart.selectAll('g')
+        .data(data)
+      .enter().append('g')
+        .attr('transform', (d, i) => `translate(${i*(barWidth)},0)`);
+
+    // Create rectangles based on the data
+
+    bar.append('rect')
+        .attr('y', d => yScale(d.frequency)) // maps the y frequency based on the data
+        .attr('height', d => height - yScale(d.frequency)) // because svg y axis goes from top to bottom
+        .attr('width', barWidth - 1)
+
+    bar.append('text')
+        .attr('x', barWidth / 2)
+        .attr('y', d => yScale(d.frequency) + 3)
+        .attr('dy', '0.75em')
+        .text(d => d.letter)
+
+  });
 })();
